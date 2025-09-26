@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.poetry]
+package-mode = false
+
+[project]
+name = "voyageai-benchmark"
+version = "0.1.0"
+description = "VoyageAI TPM Rate Limit Tester"
+requires-python = ">=3.12,<3.14"
+dependencies = [
+    "voyageai",
+    "transformers",
+]
