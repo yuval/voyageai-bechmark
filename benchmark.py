@@ -7,6 +7,7 @@ Tests the maximum throughput before hitting rate limits.
 import asyncio
 import gzip
 import json
+import logging
 import math
 import time
 from dataclasses import dataclass, field
@@ -16,6 +17,18 @@ from collections import deque
 import statistics
 
 import voyageai
+
+# Suppress voyageai internal logging (200 logging per request is excessive)
+voyageai.log = None # stops the library from doing its own print() to stderr.
+logging.getLogger("voyage").setLevel(logging.WARNING)
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S'
+)
+logger = logging.getLogger(__name__)
 
 @dataclass
 class TPMTracker:
@@ -148,6 +161,7 @@ def create_batches(
     batches = []
     current_batch = []
     current_tokens = 0
+    total_tokens = 0
     
     # Initialize tokenizer if needed
     tokenizer = None
@@ -183,10 +197,13 @@ def create_batches(
         
         current_batch.append(chunk)
         current_tokens += chunk_tokens
+        total_tokens += chunk_tokens
     
     # Add remaining batch
     if current_batch:
         batches.append(current_batch)
+    
+    logger.info(f"Created {len(batches)} batches with tokens estimated at {total_tokens}")
     
     return batches
 
@@ -215,14 +232,14 @@ async def embed_batch(
             # Track request
             tracker.add_request(result.total_tokens, latency)
             
-            # Print progress
-            print(f"Batch {batch_id:4d}: {result.total_tokens:6d} tokens | "
-                  f"Latency: {latency*1000:6.1f}ms | "
-                  f"Current TPM: {tracker.get_current_tpm():,.0f}")
+            # Log progress
+            logger.info(f"Batch {batch_id:4d}: {result.total_tokens:6d} tokens | "
+                        f"Latency: {latency*1000:6.1f}ms | "
+                        f"Current TPM: {tracker.get_current_tpm():,.0f}")
             
         except Exception as e:
             tracker.add_request(0, time.time() - start_time) 
-            print(f"Batch {batch_id} failed: {e}")
+            logger.info(f"Batch {batch_id} failed: {e}")
             return
 
 
@@ -235,21 +252,20 @@ async def run_test(
     model: str
 ):
     """Main test runner"""
-    print(f"Loading chunks from {file_path}...")
+    logger.info(f"Loading chunks from {file_path}...")
     chunks = load_chunks(file_path)
-    print(f"Loaded {len(chunks)} chunks")
+    logger.info(f"Loaded {len(chunks)} chunks")
     
-    print(f"\nCreating batches (size={batch_size}, max_tokens={max_tokens_per_batch})...")
+    logger.info(f"Creating batches (size={batch_size}, max_tokens={max_tokens_per_batch})...")
     batches = create_batches(chunks, batch_size, max_tokens_per_batch, use_tokenizer, model)
-    print(f"Created {len(batches)} batches")
     
     # Initialize client and tracker
     client = voyageai.AsyncClient()
     tracker = TPMTracker()
     semaphore = asyncio.Semaphore(concurrent_requests)
     
-    print(f"\nStarting embedding with {concurrent_requests} concurrent requests...")
-    print("=" * 80)
+    logger.info(f"Starting embedding with {concurrent_requests} concurrent requests...")
+    logger.info("=" * 80)
     
     # Create all tasks
     tasks = [
@@ -269,29 +285,29 @@ async def run_test(
     latency_stats = tracker.get_latency_stats()
 
     # Final statistics
-    print("=" * 80)
-    print(f"\nTEST COMPLETE")
-    print(f"\n* THROUGHPUT METRICS:")
-    print(f"  Total time:           {elapsed:.2f} seconds")
-    print(f"  Total tokens:         {tracker.total_tokens:,}")
-    print(f"  Total requests:       {tracker.request_count}")
-    print(f"  Average TPM:          {true_avg_tpm:,.0f}")
-    print(f"  Peak TPM (60s):       {tracker.peak_tpm:,.0f}")
-    print(f"  Requests/second:      {tracker.request_count/elapsed:.2f}")
-    
-    print(f"\n* LATENCY METRICS (ms):")
-    print(f"  Mean:                 {latency_stats['mean']*1000:.1f}")
-    print(f"  Median:               {latency_stats['median']*1000:.1f}")
-    print(f"  P95:                  {latency_stats['p95']*1000:.1f}")
-    print(f"  P99:                  {latency_stats['p99']*1000:.1f}")
-    print(f"  Min:                  {latency_stats['min']*1000:.1f}")
-    print(f"  Max:                  {latency_stats['max']*1000:.1f}")
-    
-    print(f"\n* CONFIGURATION:")
-    print(f"  Concurrent requests:  {concurrent_requests}")
-    print(f"  Batch size:           {batch_size}")
-    print(f"  Max tokens/batch:     {max_tokens_per_batch or 'None'}")
-    print(f"  Tokenizer:            {'Actual' if use_tokenizer else 'Estimated'}")
+    logger.info("=" * 80)
+    logger.info("TEST COMPLETE")
+    logger.info("* THROUGHPUT METRICS:")
+    logger.info(f"  Total time:           {elapsed:.2f} seconds")
+    logger.info(f"  Total tokens:         {tracker.total_tokens:,}")
+    logger.info(f"  Total requests:       {tracker.request_count}")
+    logger.info(f"  Average TPM:          {true_avg_tpm:,.0f}")
+    logger.info(f"  Peak TPM (60s):       {tracker.peak_tpm:,.0f}")
+    logger.info(f"  Requests/second:      {tracker.request_count/elapsed:.2f}")
+
+    logger.info("* LATENCY METRICS (ms):")
+    logger.info(f"  Mean:                 {latency_stats['mean']*1000:.1f}")
+    logger.info(f"  Median:               {latency_stats['median']*1000:.1f}")
+    logger.info(f"  P95:                  {latency_stats['p95']*1000:.1f}")
+    logger.info(f"  P99:                  {latency_stats['p99']*1000:.1f}")
+    logger.info(f"  Min:                  {latency_stats['min']*1000:.1f}")
+    logger.info(f"  Max:                  {latency_stats['max']*1000:.1f}")
+
+    logger.info("* CONFIGURATION:")
+    logger.info(f"  Concurrent requests:  {concurrent_requests}")
+    logger.info(f"  Batch size:           {batch_size}")
+    logger.info(f"  Max tokens/batch:     {max_tokens_per_batch or 'None'}")
+    logger.info(f"  Tokenizer:            {'Actual' if use_tokenizer else 'Estimated'}")
 
 
 def main():
