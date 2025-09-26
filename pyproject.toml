@@ -1,0 +1,38 @@
+[tool.poetry]
+name = "voyageai-benchmark"
+version = "0.1.0"
+description = "VoyageAI TPM (Tokens Per Minute) Rate Limit Tester"
+authors = ["Yuval <yuval@example.com>"]
+readme = "README.md"
+packages = [{include = "voyageai_benchmark.py"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+voyageai = "^0.3.0"
+transformers = "^4.35.0"
+torch = "^2.0.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.0"
+pytest-asyncio = "^0.21.0"
+black = "^23.0"
+isort = "^5.12"
+
+[tool.poetry.scripts]
+voyageai-benchmark = "voyageai_benchmark:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 88
+target-version = ['py39']
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
