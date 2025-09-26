@@ -10,7 +10,7 @@ import json
 import math
 import time
 from dataclasses import dataclass, field
-from typing import List, Optional
+from typing import Optional
 import argparse
 from collections import deque
 import statistics
@@ -24,7 +24,7 @@ class TPMTracker:
     total_tokens: int = 0
     request_count: int = 0
     token_history: deque = field(default_factory=deque)  # (timestamp, tokens) pairs
-    latencies: List[float] = field(default_factory=list)  # Request latencies in seconds
+    latencies: list[float] = field(default_factory=list)  # Request latencies in seconds
     peak_tpm: float = 0.0
     window_seconds: int = 60
     
@@ -100,7 +100,7 @@ class TPMTracker:
         }
 
 
-def load_chunks(file_path: str) -> List[str]:
+def load_chunks(file_path: str) -> list[str]:
     """Load chunks from compressed JSONL file"""
     chunks = []
     
@@ -138,12 +138,12 @@ def estimate_tokens(text: str) -> int:
 
 
 def create_batches(
-    chunks: List[str],
+    chunks: list[str],
     batch_size: int,
     max_tokens_per_batch: Optional[int] = None,
     use_tokenizer: bool = False,
     model: str = "voyage-3-large"
-) -> List[List[str]]:
+) -> list[list[str]]:
     """Create batches respecting size and token limits"""
     batches = []
     current_batch = []
@@ -193,7 +193,7 @@ def create_batches(
 
 async def embed_batch(
     client: voyageai.AsyncClient,
-    batch: List[str],
+    batch: list[str],
     model: str,
     semaphore: asyncio.Semaphore,
     tracker: TPMTracker,
@@ -221,7 +221,7 @@ async def embed_batch(
                   f"Current TPM: {tracker.get_current_tpm():,.0f}")
             
         except Exception as e:
-            tracker.add_request(0, time.time() - start_time)  # keep latency footprint if useful
+            tracker.add_request(0, time.time() - start_time) 
             print(f"Batch {batch_id} failed: {e}")
             return
 
@@ -318,13 +318,13 @@ Examples:
     parser.add_argument(
         "--batch-size",
         type=int,
-        default=128,
-        help="Number of chunks per batch (default: 128)"
+        default=1000,
+        help="Number of chunks per batch (default: 1000)"
     )
     parser.add_argument(
         "--max-tokens",
         type=int,
-        default=None,
+        default=128000,
         help="Maximum tokens per batch (optional)"
     )
     parser.add_argument(
