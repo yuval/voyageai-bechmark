@@ -1,0 +1,10 @@
+The quick brown fox jumps over the lazy dog.
+Artificial intelligence is transforming the way we work and live.
+Machine learning models require large amounts of data to train effectively.
+Natural language processing has made significant advances in recent years.
+Deep learning architectures like transformers have revolutionized NLP.
+Embeddings capture semantic meaning in high-dimensional vector spaces.
+Vector databases are essential for similarity search applications.
+Large language models can understand and generate human-like text.
+Fine-tuning allows models to adapt to specific domains and tasks.
+Retrieval-augmented generation combines search with text generation.
