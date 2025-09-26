@@ -51,6 +51,18 @@ python voyageai_benchmark.py \
 - `--duration`: Duration to run the benchmark in seconds (default: `60`)
 - `--texts-file`: Optional file with sample texts (JSON array or plain text, one per line)
 
+### Sample Text Files
+
+This repository includes sample text files to get you started:
+
+- `sample_texts.json` - JSON format with 15 sample texts
+- `sample_texts.txt` - Plain text format with 10 sample texts
+
+You can use these directly:
+```bash
+python voyageai_benchmark.py --api-key YOUR_API_KEY --texts-file sample_texts.json
+```
+
 ### Sample Text File Format
 
 **JSON format:**
