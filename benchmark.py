@@ -19,6 +19,7 @@ import statistics
 import voyageai
 
 # Suppress voyageai internal logging (200 logging per request is excessive)
+# Rate limits errors will still be logged
 voyageai.log = None # stops the library from doing its own print() to stderr.
 logging.getLogger("voyage").setLevel(logging.WARNING)
 
@@ -334,13 +335,13 @@ Examples:
     parser.add_argument(
         "--batch-size",
         type=int,
-        default=1000,
+        default=1000, # voyage limit for all models
         help="Number of chunks per batch (default: 1000)"
     )
     parser.add_argument(
         "--max-tokens",
         type=int,
-        default=128000,
+        default=120000, # voyage-3-large limit
         help="Maximum tokens per batch (optional)"
     )
     parser.add_argument(

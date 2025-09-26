@@ -1,0 +1,72 @@
+❯ TOKENIZERS_PARALLELISM=false python benchmark.py chunks.jsonl.gz --model voyage-3-large --concurrent 10 --use-tokenizer --max-tokens 120000
+2025-09-26 12:12:37 - INFO - Loading chunks from chunks.jsonl.gz...
+2025-09-26 12:12:37 - INFO - Loaded 24999 chunks
+2025-09-26 12:12:37 - INFO - Creating batches (size=1000, max_tokens=120000)...
+None of PyTorch, TensorFlow >= 2.0, or Flax have been found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+2025-09-26 12:13:14 - INFO - Created 287 batches with tokens estimated at 34208379
+2025-09-26 12:13:14 - INFO - Starting embedding with 10 concurrent requests...
+2025-09-26 12:13:14 - INFO - ================================================================================
+2025-09-26 12:13:19 - INFO - Batch    9: 119653 tokens | Latency: 5780.4ms | Current TPM: 119,653
+2025-09-26 12:13:28 - INFO - Batch   10: 118762 tokens | Latency: 8389.4ms | Current TPM: 238,415
+2025-09-26 12:13:34 - INFO - Batch   11: 118636 tokens | Latency: 6219.6ms | Current TPM: 357,051
+2025-09-26 12:13:41 - INFO - Batch   12: 119430 tokens | Latency: 6753.7ms | Current TPM: 476,481
+2025-09-26 12:13:50 - INFO - Batch   13: 119696 tokens | Latency: 9102.1ms | Current TPM: 596,177
+2025-09-26 12:13:58 - INFO - Batch   14: 118406 tokens | Latency: 8142.9ms | Current TPM: 714,583
+2025-09-26 12:14:06 - INFO - Batch   15: 118983 tokens | Latency: 8090.6ms | Current TPM: 833,566
+2025-09-26 12:14:15 - INFO - Batch   16: 119844 tokens | Latency: 8717.2ms | Current TPM: 953,410
+2025-09-26 12:14:24 - INFO - Batch   17: 118977 tokens | Latency: 9266.4ms | Current TPM: 952,734
+2025-09-26 12:14:32 - INFO - Batch   18: 119853 tokens | Latency: 7857.2ms | Current TPM: 953,825
+2025-09-26 12:14:40 - INFO - Batch   19: 118881 tokens | Latency: 8293.6ms | Current TPM: 954,070
+2025-09-26 12:14:48 - INFO - Batch   20: 118861 tokens | Latency: 8031.9ms | Current TPM: 953,501
+2025-09-26 12:14:56 - INFO - Batch   21: 119735 tokens | Latency: 7421.4ms | Current TPM: 953,540
+2025-09-26 12:15:04 - INFO - Batch   22: 119533 tokens | Latency: 7966.1ms | Current TPM: 954,667
+2025-09-26 12:15:12 - INFO - Batch   23: 119044 tokens | Latency: 8377.5ms | Current TPM: 954,728
+2025-09-26 12:15:17 - INFO - Batch   24: 117732 tokens | Latency: 5222.2ms | Current TPM: 952,616
+2025-09-26 12:15:26 - INFO - Batch   25: 119602 tokens | Latency: 8987.2ms | Current TPM: 953,241
+2025-09-26 12:15:35 - INFO - Batch   26: 118850 tokens | Latency: 8744.1ms | Current TPM: 952,238
+2025-09-26 12:15:44 - INFO - Batch   27: 118754 tokens | Latency: 8538.1ms | Current TPM: 952,111
+2025-09-26 12:15:51 - INFO - Batch   28: 119453 tokens | Latency: 6982.0ms | Current TPM: 952,703
+2025-09-26 12:15:59 - INFO - Batch    5: 119087 tokens | Latency: 165013.7ms | Current TPM: 952,055
+2025-09-26 12:16:06 - INFO - Batch   29: 119785 tokens | Latency: 15571.1ms | Current TPM: 952,307
+2025-09-26 12:16:14 - INFO - Batch   31: 119669 tokens | Latency: 7971.1ms | Current TPM: 952,932
+2025-09-26 12:16:21 - INFO - Batch   32: 119793 tokens | Latency: 6748.8ms | Current TPM: 954,993
+2025-09-26 12:16:29 - INFO - Batch   33: 117384 tokens | Latency: 7781.1ms | Current TPM: 952,775
+2025-09-26 12:16:35 - INFO - Batch   34: 119816 tokens | Latency: 6690.4ms | Current TPM: 953,741
+2025-09-26 12:16:44 - INFO - Batch   35: 119858 tokens | Latency: 8365.3ms | Current TPM: 954,845
+2025-09-26 12:16:51 - INFO - Batch   36: 119830 tokens | Latency: 7612.1ms | Current TPM: 955,222
+2025-09-26 12:17:01 - INFO - Batch   37: 119814 tokens | Latency: 9478.3ms | Current TPM: 955,949
+2025-09-26 12:17:09 - INFO - Batch   38: 118027 tokens | Latency: 7684.7ms | Current TPM: 954,191
+2025-09-26 12:17:16 - INFO - Batch   39: 119880 tokens | Latency: 7170.9ms | Current TPM: 954,402
+2025-09-26 12:17:24 - INFO - Batch   40: 119698 tokens | Latency: 7895.2ms | Current TPM: 954,307
+2025-09-26 12:17:31 - INFO - Batch   41: 118362 tokens | Latency: 7280.0ms | Current TPM: 955,285
+2025-09-26 12:17:39 - INFO - Batch   42: 118948 tokens | Latency: 8066.3ms | Current TPM: 954,417
+2025-09-26 12:17:47 - INFO - Batch   43: 119814 tokens | Latency: 7890.6ms | Current TPM: 954,373
+2025-09-26 12:17:54 - INFO - Batch   44: 118694 tokens | Latency: 7457.7ms | Current TPM: 953,237
+2025-09-26 12:18:02 - INFO - Batch   45: 118803 tokens | Latency: 7978.8ms | Current TPM: 952,226
+2025-09-26 12:18:10 - INFO - Batch   46: 118674 tokens | Latency: 7588.1ms | Current TPM: 952,873
+2025-09-26 12:18:17 - INFO - Batch   47: 118631 tokens | Latency: 7583.3ms | Current TPM: 951,624
+2025-09-26 12:18:25 - INFO - Batch   48: 119345 tokens | Latency: 7908.0ms | Current TPM: 951,271
+2025-09-26 12:18:34 - INFO - Batch   49: 118526 tokens | Latency: 8392.3ms | Current TPM: 951,435
+2025-09-26 12:18:42 - INFO - Batch   50: 118626 tokens | Latency: 8005.9ms | Current TPM: 951,113
+2025-09-26 12:18:49 - INFO - Batch   51: 118926 tokens | Latency: 6977.3ms | Current TPM: 950,225
+2025-09-26 12:18:56 - INFO - Batch   52: 118452 tokens | Latency: 6935.9ms | Current TPM: 949,983
+2025-09-26 12:19:04 - INFO - Batch   53: 119370 tokens | Latency: 8156.4ms | Current TPM: 950,550
+2025-09-26 12:19:12 - INFO - Batch   54: 119911 tokens | Latency: 8250.6ms | Current TPM: 951,787
+2025-09-26 12:19:18 - INFO - Batch   55: 118792 tokens | Latency: 6274.8ms | Current TPM: 951,948
+2025-09-26 12:19:27 - INFO - Batch   56: 118516 tokens | Latency: 8771.2ms | Current TPM: 951,119
+2025-09-26 12:19:36 - INFO - Batch   57: 119226 tokens | Latency: 8834.1ms | Current TPM: 951,819
+2025-09-26 12:19:44 - INFO - Batch   58: 119311 tokens | Latency: 7929.5ms | Current TPM: 952,504
+2025-09-26 12:19:53 - INFO - Batch   59: 119659 tokens | Latency: 9468.2ms | Current TPM: 953,237
+2025-09-26 12:20:00 - INFO - Batch   60: 119350 tokens | Latency: 6807.4ms | Current TPM: 954,135
+2025-09-26 12:20:09 - INFO - Batch   61: 119168 tokens | Latency: 8931.0ms | Current TPM: 953,933
+2025-09-26 12:20:16 - INFO - Batch   62: 119538 tokens | Latency: 6523.5ms | Current TPM: 953,560
+2025-09-26 12:20:24 - INFO - Batch   63: 119063 tokens | Latency: 7850.0ms | Current TPM: 953,831
+2025-09-26 12:20:31 - INFO - Batch   64: 119604 tokens | Latency: 7921.4ms | Current TPM: 954,919
+2025-09-26 12:20:41 - INFO - Batch   65: 119724 tokens | Latency: 9149.8ms | Current TPM: 955,417
+2025-09-26 12:20:49 - INFO - Batch   66: 119605 tokens | Latency: 8442.8ms | Current TPM: 955,711
+2025-09-26 12:20:57 - INFO - Batch   67: 119385 tokens | Latency: 7501.3ms | Current TPM: 955,437
+2025-09-26 12:21:04 - INFO - Batch   68: 119430 tokens | Latency: 7255.0ms | Current TPM: 955,517
+2025-09-26 12:21:11 - INFO - Batch   69: 119175 tokens | Latency: 6725.1ms | Current TPM: 955,524
+2025-09-26 12:21:20 - INFO - Batch   70: 119191 tokens | Latency: 9191.9ms | Current TPM: 955,177
+2025-09-26 12:21:27 - INFO - Batch   71: 119739 tokens | Latency: 7434.4ms | Current TPM: 955,853
+2025-09-26 12:21:35 - INFO - Batch   72: 119115 tokens | Latency: 7708.8ms | Current TPM: 955,364
